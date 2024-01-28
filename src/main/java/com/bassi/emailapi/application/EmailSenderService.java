@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailSenderService implements EmailSender {
 
-    private EmailSenderGateway emailSenderGateway;
+    private final EmailSenderGateway emailSenderGateway;
 
     @Override
     public void sendEmail(EmailTO data) {
