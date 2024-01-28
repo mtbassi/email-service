@@ -1,8 +1,8 @@
 package com.bassi.emailapi.application;
 
-import com.bassi.emailapi.adapters.EmailSenderGateway;
 import com.bassi.emailapi.core.EmailSender;
 import com.bassi.emailapi.model.EmailTO;
+import com.bassi.emailapi.router.EmailSenderRouter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EmailSenderService implements EmailSender {
 
-    private final EmailSenderGateway emailSenderGateway;
+    private final EmailSenderRouter emailSenderRouter;
 
     @Override
     public void sendEmail(EmailTO data) {
-        this.emailSenderGateway.sendEmail(data);
+        this.emailSenderRouter.sendEmail(data);
     }
 }
