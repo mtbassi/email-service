@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,9 +32,7 @@ public class SesEmailSender implements EmailSenderGateway {
                         .withBody(new Body().withText(new Content(data.body()))));
         try {
             this.amazonSimpleEmailService.sendEmail(request);
-        } catch (HttpClientErrorException e) {
-            log.error("HttpClientErrorException exception thrown AmazonSimpleEmailService.");
-            throw e;
+            log.info("Sending email via Amazon Simple Email Service.");
         } catch (AmazonServiceException e) {
             throw new EmailServiceException("Failed while sending email.", e);
         }
