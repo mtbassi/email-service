@@ -14,9 +14,13 @@ public class EmailSenderRouter {
 
     private final EmailSenderGateway amazonSimpleEmailService;
 
+    private final EmailSenderGateway sendgridApi;
+
     @Autowired
-    EmailSenderRouter(@Qualifier("sesEmailSender") EmailSenderGateway amazonSimpleEmailService) {
+    EmailSenderRouter(@Qualifier("sesEmailSender") EmailSenderGateway amazonSimpleEmailService,
+                      @Qualifier("sendgridEmailSender") EmailSenderGateway sendgridApi) {
         this.amazonSimpleEmailService = amazonSimpleEmailService;
+        this.sendgridApi = sendgridApi;
     }
 
     @CircuitBreaker(name = "alterProvider", fallbackMethod = "sendEmailFallback")
@@ -26,5 +30,6 @@ public class EmailSenderRouter {
 
     public void sendEmailFallback(EmailTO data, Exception e) {
         log.error("Primary provider request failed, failing over to provider secondary. Error was: " + e.getMessage());
+        sendgridApi.sendEmail(data);
     }
 }
